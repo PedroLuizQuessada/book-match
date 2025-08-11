@@ -1,5 +1,6 @@
 package com.example.bookmatch
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             if (email.text.toString() == "user" && password.text.toString() == "1234") {
                 Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Home::class.java)
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show()
             }
