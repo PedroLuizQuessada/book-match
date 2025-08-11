@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BookMatch</string>
+    <string name="login_text">Login</string>
+    <string name="e_mail_field_hint">E-mail</string>
+    <string name="password_field_hint">Password</string>
+    <string name="login_button_text">Login</string>
+    <string name="not_yet_registered_signup_now_text">Not yet registered? SignUp Now</string>
+</resources>
