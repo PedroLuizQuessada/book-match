@@ -5,12 +5,17 @@
     <string name="password_field_hint">Password</string>
     <string name="password_confirmation_field_hint">Password confirmation</string>
     <string name="login_button_text">Login</string>
-    <string name="not_yet_registered_signup_now_text">Not yet registered? Sign Up Now</string>
-    <string name="explore_bottommenu_item_text">Explore</string>
-    <string name="profile_bottommenuitem_text">Profile</string>
+    <string name="sign_up_link_text">Not yet registered? Sign Up Now</string>
+    <string name="forgot_password_link_text">Forgot password?</string>
     <string name="sign_up_text">Sign Up</string>
     <string name="create_account_button_text">Create account</string>
-    <string name="signup_email_code_text">Confirm the code received in your e-mail</string>
+    <string name="email_code_text">Confirm the code you received in your e-mail</string>
     <string name="e_mail_code_field_hint">E-mail code</string>
-    <string name="sign_up_email_code_confirm_code">Confirm code</string>
+    <string name="confirm_code_button_text">Confirm code</string>
+    <string name="change_password_text">Change your password</string>
+    <string name="new_password_field_hint">New password</string>
+    <string name="new_password_confirmation_field_hint">New password confirmation</string>
+    <string name="change_password_button_text">Change password</string>
+    <string name="explore_bottommenu_item_text">Explore</string>
+    <string name="profile_bottommenuitem_text">Profile</string>
 </resources>

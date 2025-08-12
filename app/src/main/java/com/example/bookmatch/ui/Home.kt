@@ -1,4 +1,4 @@
-package com.example.bookmatch
+package com.example.bookmatch.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.bookmatch.R
 import com.example.bookmatch.databinding.ActivityHomeBinding
 
 class Home : AppCompatActivity() {
@@ -39,7 +40,7 @@ class Home : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout, fragment)
+            .replace(R.id.frame_layout, fragment)
             .commit()
     }
 }
