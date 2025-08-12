@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/explore_bottommenu_item_text"
-        android:icon="@drawable/outline_category_search_24"
-          android:id="@+id/explore"/>
-    <item android:title="@string/profile_bottommenuitem_text"
-        android:icon="@drawable/baseline_person_24"
-          android:id="@+id/profile"/>
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:title="@string/explore_bottommenu_item_text"
+            android:icon="@drawable/outline_category_search_24"
+            android:id="@+id/explore"/>
+
+    <item
+            android:title="@string/profile_bottommenuitem_text"
+            android:icon="@drawable/baseline_person_24"
+            android:id="@+id/profile"/>
+
 </menu>

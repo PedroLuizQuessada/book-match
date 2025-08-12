@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 
-class MainActivity : AppCompatActivity() {
+class Login : AppCompatActivity() {
     val users: MutableMap<String, String> = HashMap()
     private lateinit var email: EditText
     private lateinit var password: EditText
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
