@@ -3,3 +3,4 @@
 /.idea/
 /.kotlin/
 local.properties
+/build/

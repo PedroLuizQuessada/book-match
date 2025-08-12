@@ -24,11 +24,15 @@ class Home : AppCompatActivity() {
         }
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        replaceFragment(ExploreFragment())
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.explore -> {
                     replaceFragment(ExploreFragment())
+                }
+                R.id.my_list -> {
+                    replaceFragment(MyListFragment())
                 }
                 R.id.reviews -> {
                     replaceFragment(ReviewsFragment())

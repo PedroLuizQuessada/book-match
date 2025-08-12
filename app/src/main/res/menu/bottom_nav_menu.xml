@@ -8,6 +8,11 @@
             android:id="@+id/explore"/>
 
     <item
+            android:title="@string/my_list_bottom_menu_item_text"
+            android:icon="@drawable/outline_checklist_24"
+            android:id="@+id/my_list"/>
+
+    <item
             android:title="@string/reviews_bottom_menu_item_text"
             android:icon="@drawable/outline_contract_edit_24"
             android:id="@+id/reviews"/>

@@ -17,5 +17,6 @@
     <string name="new_password_confirmation_field_hint">New password confirmation</string>
     <string name="change_password_button_text">Change password</string>
     <string name="explore_bottom_menu_item_text">Explore</string>
+    <string name="my_list_bottom_menu_item_text">My list</string>
     <string name="reviews_bottom_menu_item_text">Reviews</string>
 </resources>
