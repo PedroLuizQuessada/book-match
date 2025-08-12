@@ -30,8 +30,8 @@ class Home : AppCompatActivity() {
                 R.id.explore -> {
                     replaceFragment(ExploreFragment())
                 }
-                R.id.profile -> {
-                    replaceFragment(ProfileFragment())
+                R.id.reviews -> {
+                    replaceFragment(ReviewsFragment())
                 }
             }
             true

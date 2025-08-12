@@ -16,6 +16,6 @@
     <string name="new_password_field_hint">New password</string>
     <string name="new_password_confirmation_field_hint">New password confirmation</string>
     <string name="change_password_button_text">Change password</string>
-    <string name="explore_bottommenu_item_text">Explore</string>
-    <string name="profile_bottommenuitem_text">Profile</string>
+    <string name="explore_bottom_menu_item_text">Explore</string>
+    <string name="reviews_bottom_menu_item_text">Reviews</string>
 </resources>
