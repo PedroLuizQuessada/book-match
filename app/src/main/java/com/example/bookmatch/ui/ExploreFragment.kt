@@ -1,16 +1,29 @@
 package com.example.bookmatch.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
+import android.widget.ProgressBar
+import androidx.cardview.widget.CardView
 import com.example.bookmatch.R
+import com.example.bookmatch.data.Books
+import com.example.bookmatch.entity.Book
+import com.google.android.material.textview.MaterialTextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private lateinit var bookCard: CardView
+@SuppressLint("StaticFieldLeak")
+private lateinit var bookLoading: ProgressBar
+private lateinit var bookName: MaterialTextView
+private lateinit var bookSynopsis: MaterialTextView
 
 /**
  * A simple [Fragment] subclass.
@@ -30,12 +43,85 @@ class ExploreFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+        val view = inflater.inflate(R.layout.fragment_explore, container, false)
+
+        bookCard = view.findViewById(R.id.book_card)
+        bookLoading = view.findViewById(R.id.book_loading)
+        bookName = view.findViewById(R.id.book_name)
+        bookSynopsis = view.findViewById(R.id.book_synopsis)
+        var isDialogShown = false
+        var animator: ViewPropertyAnimator? = null
+        val cardStartX = bookCard.x
+        val cardStartY = bookCard.y
+        val bookCardLayoutParams = bookCard.layoutParams as ViewGroup.MarginLayoutParams
+        val bookCardMarginLeft = bookCardLayoutParams.leftMargin.toFloat()
+        val bookCardMarginTop = bookCardLayoutParams.topMargin.toFloat()
+
+        loadBookData()
+
+        bookCard.setOnTouchListener(View.OnTouchListener { view, event ->
+            val displayMetrics = resources.displayMetrics
+            val cardWidth = bookCard.width
+            val cardHeight = bookCard.height
+
+            when (event.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    val newX = event.rawX
+                    val newY = event.rawY
+                    animator?.cancel()
+                    bookCard.x = newX - (cardWidth / 2)
+                    bookCard.y = newY - (cardHeight / 2)
+                    isDialogShown = false
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val currentX = bookCard.x
+                    val currentY = bookCard.y
+
+                    animator?.cancel()
+                    animator = bookCard.animate()
+                        .x(cardStartX + bookCardMarginLeft)
+                        .y(cardStartY + bookCardMarginTop)
+                        .setDuration(150)
+                    animator.withEndAction {
+                        if (currentY + (cardHeight / 2) < displayMetrics.heightPixels.toFloat() * 0.25 && !isDialogShown) {
+                            isDialogShown = true
+                            val signUpDialog = AddReviewDialog(requireContext(), R.style.DialogTheme,
+                                bookName.text.toString(), this)
+                            signUpDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                            signUpDialog.show()
+                        }
+                    }
+                    animator.start()
+                }
+            }
+
+            // required to by-pass lint warning
+            view.performClick()
+            return@OnTouchListener true
+        })
+
+        return view
+    }
+
+    fun loadBookData() {
+        bookName.visibility = View.GONE
+        bookSynopsis.visibility = View.GONE
+        bookLoading.visibility = View.VISIBLE
+
+        val book: Book = Books.getRandomBook()
+
+        bookName.text = book.name
+        bookSynopsis.text = book.synopsis
+        bookLoading.visibility = View.GONE
+        bookName.visibility = View.VISIBLE
+        bookSynopsis.visibility = View.VISIBLE
     }
 
     companion object {

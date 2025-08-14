@@ -19,4 +19,10 @@
     <string name="explore_bottom_menu_item_text">Explore</string>
     <string name="my_list_bottom_menu_item_text">My list</string>
     <string name="reviews_bottom_menu_item_text">Reviews</string>
+    <string name="add_review_text">Add new review</string>
+    <string name="review_field_hint">Write here your impressions about the book…</string>
+    <string name="rating_field_hint">Rating</string>
+    <string name="save_review_button_text">Save</string>
+    <string name="delete_review_button_text">Delete</string>
+    <string name="book_reviewed_field_hint">Book reviewed</string>
 </resources>
