@@ -1,6 +1,7 @@
 package com.example.bookmatch.entity
 
 import android.util.Patterns
+import com.example.bookmatch.exception.BadArgumentException
 
 class User(email: String, password: String) {
     private var _email: String
@@ -9,8 +10,11 @@ class User(email: String, password: String) {
     val email: String
         get() = _email
 
-    val password: String
-        get() = _password
+    var password: String = ""
+        set(password) {
+            validatePassword(password)
+            field = password
+        }
 
     init {
         validateEmail(email)
@@ -21,13 +25,13 @@ class User(email: String, password: String) {
 
     private fun validateEmail(email: String) {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            throw Exception("Invalid e-mail!")
+            throw BadArgumentException("Invalid e-mail!")
         }
     }
 
     private fun validatePassword(password: String) {
         if (password.length < 6) {
-            throw Exception("The password must have at least 6 characters!")
+            throw BadArgumentException("The password must have at least 6 characters!")
         }
     }
 }

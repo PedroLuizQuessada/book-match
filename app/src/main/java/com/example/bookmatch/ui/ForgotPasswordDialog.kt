@@ -7,9 +7,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
+import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.User
 
-class ForgotPasswordDialog(context: Context, themeResId: Int, private val users: MutableList<User> = mutableListOf()) : Dialog(context, themeResId) {
+class ForgotPasswordDialog(context: Context, themeResId: Int) : Dialog(context, themeResId) {
 
     private var changePasswordText: TextView
     private var emailChangePassword: EditText
@@ -44,10 +45,11 @@ class ForgotPasswordDialog(context: Context, themeResId: Int, private val users:
 
                 try {
                     val user = User(emailChangePassword.text.toString(), newPasswordChangePassword.text.toString())
+                    Users.getUser(user.email)
 
                     dismiss()
 
-                    val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme, users, user,
+                    val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme, user,
                         "Password changed successfully")
                     emailCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                     emailCodeDialog.show()

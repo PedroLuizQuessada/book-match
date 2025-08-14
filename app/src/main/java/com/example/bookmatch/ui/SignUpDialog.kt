@@ -7,9 +7,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
+import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.User
+import com.example.bookmatch.exception.BadArgumentException
+import com.example.bookmatch.exception.UserNotFoundException
 
-class SignUpDialog(context: Context, themeResId: Int, private val users: MutableList<User> = mutableListOf()) : Dialog(context, themeResId) {
+class SignUpDialog(context: Context, themeResId: Int) : Dialog(context, themeResId) {
 
     private var signUpText: TextView
     private var emailSignUp: EditText
@@ -44,9 +47,15 @@ class SignUpDialog(context: Context, themeResId: Int, private val users: Mutable
                 try {
                     val user = User(emailSignUp.text.toString(), passwordSignUp.text.toString())
 
+                    try {
+                        Users.getUser(user.email)
+                        throw BadArgumentException("E-mail already in use!")
+                    }
+                    catch (_: UserNotFoundException) {}
+
                     dismiss()
 
-                    val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme, users,
+                    val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme,
                         user, "Account created successfully")
                     emailCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                     emailCodeDialog.show()

@@ -7,11 +7,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.bookmatch.R
+import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.User
 
 class EmailCodeDialog(context: Context,
                       themeResId: Int,
-                      private val users: MutableList<User> = mutableListOf(),
                       user: User,
                       successMessage: String) : Dialog(context, themeResId) {
 
@@ -25,8 +25,19 @@ class EmailCodeDialog(context: Context,
 
         confirmCode.setOnClickListener {
             if (emailCode.text.toString() == "abc123") {
-                users.add(user)
+                if (successMessage == "Account created successfully")
+                    Users.userList.add(user)
+                else if (successMessage == "Password changed successfully") {
+                    try {
+                        val updateUser = Users.getUser(user.email)
+                        updateUser.password = user.password
+                    }
+                    catch (e: Exception) {
+                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
                 dismiss()
+                println("USUARIO ATUALIZADO: " + Users.getUser(user.email).password)
                 val intent = Intent(context, Home::class.java)
                 context.startActivity(intent)
                 Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()

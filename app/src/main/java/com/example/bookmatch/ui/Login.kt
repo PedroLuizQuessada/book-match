@@ -8,10 +8,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
-import com.example.bookmatch.entity.User
+import com.example.bookmatch.data.Users
 
 class Login : AppCompatActivity() {
-    val users: MutableList<User> = mutableListOf()
     private lateinit var email: EditText
     private lateinit var password: EditText
     private lateinit var loginButton: Button
@@ -29,22 +28,24 @@ class Login : AppCompatActivity() {
         forgotPassword = findViewById(R.id.forgot_password)
 
         loginButton.setOnClickListener {
-            if (users.any { it.email == email.text.toString() && it.password == password.text.toString() }) {
+            try {
+                Users.getUser(email.text.toString(), password.text.toString())
                 val intent = Intent(this, Home::class.java)
                 startActivity(intent)
-            } else {
-                Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show()
+            }
+            catch (e: Exception) {
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
 
         signUpLink.setOnClickListener {
-            val signUpDialog = SignUpDialog(this, R.style.DialogTheme, users)
+            val signUpDialog = SignUpDialog(this, R.style.DialogTheme)
             signUpDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             signUpDialog.show()
         }
 
         forgotPassword.setOnClickListener {
-            val forgotPasswordDialog = ForgotPasswordDialog(this, R.style.DialogTheme, users)
+            val forgotPasswordDialog = ForgotPasswordDialog(this, R.style.DialogTheme)
             forgotPasswordDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             forgotPasswordDialog.show()
         }

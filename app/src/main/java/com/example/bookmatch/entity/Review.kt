@@ -1,5 +1,7 @@
 package com.example.bookmatch.entity
 
+import com.example.bookmatch.exception.BadArgumentException
+
 class Review(bookName: String, review: String, rating: Int?) {
 
     private var _bookName: String
@@ -24,7 +26,7 @@ class Review(bookName: String, review: String, rating: Int?) {
 
     private fun validateBookName(bookName: String) {
         if (bookName.isEmpty()) {
-            throw Exception("The review must have a book name!")
+            throw BadArgumentException("The review must have a book name!")
         }
     }
 }
