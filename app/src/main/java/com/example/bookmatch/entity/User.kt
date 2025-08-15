@@ -1,7 +1,7 @@
 package com.example.bookmatch.entity
 
-import android.util.Patterns
 import com.example.bookmatch.exception.BadArgumentException
+import com.example.bookmatch.utils.EmailUtil
 
 class User(email: String, password: String) {
     private var _email: String
@@ -17,16 +17,10 @@ class User(email: String, password: String) {
         }
 
     init {
-        validateEmail(email)
+        EmailUtil.validateEmail(email)
         validatePassword(password)
         _email = email
         _password = password
-    }
-
-    private fun validateEmail(email: String) {
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            throw BadArgumentException("Invalid e-mail!")
-        }
     }
 
     private fun validatePassword(password: String) {

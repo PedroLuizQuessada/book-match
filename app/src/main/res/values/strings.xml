@@ -28,7 +28,5 @@
     <string name="book_reviewed_field_hint">Book reviewed</string>
 
 <!--    Success messages-->
-    <string name="account_created">Account created successfully</string>
-    <string name="password_changed">Password changed successfully</string>
     <string name="review_added">"The review was added successfully!"</string>
 </resources>

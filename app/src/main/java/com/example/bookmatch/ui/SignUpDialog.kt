@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.example.bookmatch.R
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.User
+import com.example.bookmatch.enums.EmailCodeType
 import com.example.bookmatch.exception.EmailAlreadyInUseException
 import com.example.bookmatch.exception.PasswordFieldsWithDifferentValuesException
 import com.example.bookmatch.exception.UserNotFoundException
@@ -56,7 +57,7 @@ class SignUpDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
                 dismiss()
 
                 val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme,
-                    user, R.string.account_created)
+                    user, EmailCodeType.SIGN_UP)
                 emailCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 emailCodeDialog.show()
             }

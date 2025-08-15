@@ -7,29 +7,35 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.bookmatch.R
+import com.example.bookmatch.data.EmailCodes
 import com.example.bookmatch.data.Users
+import com.example.bookmatch.entity.EmailCode
 import com.example.bookmatch.entity.User
+import com.example.bookmatch.enums.EmailCodeType
 
 class EmailCodeDialog(
     context: Context,
     themeResId: Int,
     user: User,
-    successMessage: Int
+    emailCodeType: EmailCodeType
 ) : Dialog(context, themeResId) {
 
-    private var emailCode: EditText
+    private var emailCodeField: EditText
     private var confirmCode: Button
 
     init {
         setContentView(R.layout.dialog_email_code)
-        emailCode = findViewById(R.id.email_code)
+        emailCodeField = findViewById(R.id.email_code)
         confirmCode = findViewById(R.id.confirm_code)
 
         confirmCode.setOnClickListener {
-            if (emailCode.text.toString() == "abc123") { //TODO
-                if (successMessage == R.string.account_created)
+
+            try {
+                var emailCode: EmailCode = EmailCodes.getEmailCode(emailCodeField.text.toString(), user.email, emailCodeType)
+
+                if (emailCodeType == EmailCodeType.SIGN_UP)
                     Users.userList.add(user)
-                else if (successMessage == R.string.password_changed) {
+                else if (emailCodeType == EmailCodeType.CHANGE_PASSWORD) {
                     try {
                         val updateUser = Users.getUser(user.email)
                         updateUser.password = user.password
@@ -38,13 +44,16 @@ class EmailCodeDialog(
                         Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                emailCode.valid = false
                 dismiss()
-                println("USUARIO ATUALIZADO: " + Users.getUser(user.email).password) //TODO
+                println("SENHA USUARIO ATUALIZADA: " + Users.getUser(user.email).password) //TODO
+                println("VALIDADE E-MAIL CODE ATUALIZADA: " + EmailCodes.getEmailCode(this.emailCodeField.text.toString(), user.email, emailCodeType).valid) //TODO
                 val intent = Intent(context, Home::class.java)
                 context.startActivity(intent)
-                Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "The code is incorrect!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, emailCodeType.successMessage, Toast.LENGTH_SHORT).show()
+            }
+            catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
