@@ -66,15 +66,22 @@
                     android:textColorHighlight="@color/cardview_dark_background"
                     android:layout_marginTop="20dp"/>
 
+            <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remember_me"
+                    android:text="@string/remember_me_checkbox_text"
+                    android:layout_marginTop="10dp"/>
+
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:id="@+id/login_button"
                     android:text="@string/login_button_text"
                     android:textSize="18sp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:backgroundTint="@color/purple"
-                    app:cornerRadius = "20dp"/>
+                    app:cornerRadius="20dp"/>
 
         </LinearLayout>
 
@@ -99,7 +106,6 @@
             android:textSize="14sp"
             android:textAlignment="center"
             android:id="@+id/forgot_password"
-            android:textColor="@color/purple"
-            android:layout_marginBottom="100dp"/>
+            android:textColor="@color/purple"/>
 
 </LinearLayout>
