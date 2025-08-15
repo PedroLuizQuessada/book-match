@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.example.bookmatch.R
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.User
+import com.example.bookmatch.exception.PasswordFieldsWithDifferentValuesException
 
 class ForgotPasswordDialog(context: Context, themeResId: Int) : Dialog(context, themeResId) {
 
@@ -37,26 +38,23 @@ class ForgotPasswordDialog(context: Context, themeResId: Int) : Dialog(context, 
 
         changePassword.setOnClickListener {
 
-            if (newPasswordChangePassword.text.toString() != newPasswordConfirmationChangePassword.text.toString()) {
-                Toast.makeText(context, "The password fields must have the same value!", Toast.LENGTH_SHORT).show()
+            try {
+                if (newPasswordChangePassword.text.toString() != newPasswordConfirmationChangePassword.text.toString()) {
+                    throw PasswordFieldsWithDifferentValuesException()
+                }
+
+                val user = User(emailChangePassword.text.toString(), newPasswordChangePassword.text.toString())
+                Users.getUser(user.email)
+
+                dismiss()
+
+                val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme, user,
+                    R.string.password_changed)
+                emailCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                emailCodeDialog.show()
             }
-
-            else {
-
-                try {
-                    val user = User(emailChangePassword.text.toString(), newPasswordChangePassword.text.toString())
-                    Users.getUser(user.email)
-
-                    dismiss()
-
-                    val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme, user,
-                        "Password changed successfully")
-                    emailCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                    emailCodeDialog.show()
-                }
-                catch (e: Exception) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                }
+            catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

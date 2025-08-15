@@ -10,10 +10,12 @@ import com.example.bookmatch.R
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.User
 
-class EmailCodeDialog(context: Context,
-                      themeResId: Int,
-                      user: User,
-                      successMessage: String) : Dialog(context, themeResId) {
+class EmailCodeDialog(
+    context: Context,
+    themeResId: Int,
+    user: User,
+    successMessage: Int
+) : Dialog(context, themeResId) {
 
     private var emailCode: EditText
     private var confirmCode: Button
@@ -24,10 +26,10 @@ class EmailCodeDialog(context: Context,
         confirmCode = findViewById(R.id.confirm_code)
 
         confirmCode.setOnClickListener {
-            if (emailCode.text.toString() == "abc123") {
-                if (successMessage == "Account created successfully")
+            if (emailCode.text.toString() == "abc123") { //TODO
+                if (successMessage == R.string.account_created)
                     Users.userList.add(user)
-                else if (successMessage == "Password changed successfully") {
+                else if (successMessage == R.string.password_changed) {
                     try {
                         val updateUser = Users.getUser(user.email)
                         updateUser.password = user.password
@@ -37,7 +39,7 @@ class EmailCodeDialog(context: Context,
                     }
                 }
                 dismiss()
-                println("USUARIO ATUALIZADO: " + Users.getUser(user.email).password)
+                println("USUARIO ATUALIZADO: " + Users.getUser(user.email).password) //TODO
                 val intent = Intent(context, Home::class.java)
                 context.startActivity(intent)
                 Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()

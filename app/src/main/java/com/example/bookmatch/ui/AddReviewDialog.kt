@@ -43,7 +43,7 @@ class AddReviewDialog(context: Context, themeResId: Int, book: String, exploreFr
                 bookReviewField.text.toString(), rating))
             exploreFragment.loadBookData()
             dismiss()
-            Toast.makeText(context, "The review was added successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.review_added, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.bookmatch.entity
 
+import com.example.bookmatch.R
 import com.example.bookmatch.exception.BadArgumentException
 
 class Book(name: String, synopsis: String) {
@@ -21,7 +22,7 @@ class Book(name: String, synopsis: String) {
 
     private fun validateName(name: String) {
         if (name.isEmpty()) {
-            throw BadArgumentException("The book must have a name!")
+            throw BadArgumentException(R.string.change_password_button_text.toString())
         }
     }
 

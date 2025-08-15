@@ -9,7 +9,8 @@ import android.widget.Toast
 import com.example.bookmatch.R
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.User
-import com.example.bookmatch.exception.BadArgumentException
+import com.example.bookmatch.exception.EmailAlreadyInUseException
+import com.example.bookmatch.exception.PasswordFieldsWithDifferentValuesException
 import com.example.bookmatch.exception.UserNotFoundException
 
 class SignUpDialog(context: Context, themeResId: Int) : Dialog(context, themeResId) {
@@ -38,31 +39,29 @@ class SignUpDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
         createAccount.setText(R.string.create_account_button_text)
 
         createAccount.setOnClickListener {
-            if (passwordSignUp.text.toString() != passwordConfirmationSignUp.text.toString()) {
-                Toast.makeText(context, "The password fields must have the same value!", Toast.LENGTH_SHORT).show()
-            }
 
-            else {
+            try {
+                if (passwordSignUp.text.toString() != passwordConfirmationSignUp.text.toString()) {
+                    throw PasswordFieldsWithDifferentValuesException()
+                }
+
+                val user = User(emailSignUp.text.toString(), passwordSignUp.text.toString())
 
                 try {
-                    val user = User(emailSignUp.text.toString(), passwordSignUp.text.toString())
-
-                    try {
-                        Users.getUser(user.email)
-                        throw BadArgumentException("E-mail already in use!")
-                    }
-                    catch (_: UserNotFoundException) {}
-
-                    dismiss()
-
-                    val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme,
-                        user, "Account created successfully")
-                    emailCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                    emailCodeDialog.show()
+                    Users.getUser(user.email)
+                    throw EmailAlreadyInUseException()
                 }
-                catch (e: Exception) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                }
+                catch (_: UserNotFoundException) {}
+
+                dismiss()
+
+                val emailCodeDialog = EmailCodeDialog(context, R.style.DialogTheme,
+                    user, R.string.account_created)
+                emailCodeDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                emailCodeDialog.show()
+            }
+            catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
