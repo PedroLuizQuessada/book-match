@@ -95,7 +95,7 @@ class ExploreFragment(private val userEmail: String) : Fragment() {
                         if (currentY + (cardHeight / 2) < displayMetrics.heightPixels.toFloat() * 0.25 && !isDialogShown) {
                             isDialogShown = true
                             val signUpDialog = AddReviewDialog(requireContext(), R.style.DialogTheme,
-                                bookName.text.toString(), this)
+                                userEmail, bookName.text.toString(), this)
                             signUpDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                             signUpDialog.show()
                         }

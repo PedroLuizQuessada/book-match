@@ -7,10 +7,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
-import com.example.bookmatch.data.Reviews
+import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.Review
 
-class AddReviewDialog(context: Context, themeResId: Int, book: String, exploreFragment: ExploreFragment) : Dialog(context, themeResId) {
+class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book: String, exploreFragment: ExploreFragment) : Dialog(context, themeResId) {
 
     private var addReviewText: TextView
     private var bookNameField: EditText
@@ -39,7 +39,7 @@ class AddReviewDialog(context: Context, themeResId: Int, book: String, exploreFr
 
             val rating = bookRatingField.text.toString().takeIf { it.isNotBlank() }?.toInt()
 
-            Reviews.reviewList.add(Review(bookNameField.text.toString(),
+            Users.getUser(userEmail).getReviewList().add(Review(bookNameField.text.toString(),
                 bookReviewField.text.toString(), rating))
             exploreFragment.loadBookData()
             dismiss()

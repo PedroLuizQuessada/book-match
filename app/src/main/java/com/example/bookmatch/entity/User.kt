@@ -26,6 +26,10 @@ class User(email: String, password: String) {
         return myList
     }
 
+    fun getReviewList(): MutableList<Review> {
+        return reviewList
+    }
+
     init {
         EmailUtil.validateEmail(email)
         validatePassword(password)
