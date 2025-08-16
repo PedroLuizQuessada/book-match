@@ -40,7 +40,7 @@ class Home : AppCompatActivity() {
                     replaceFragment(ExploreFragment(userEmail))
                 }
                 R.id.my_list -> {
-                    replaceFragment(MyListFragment())
+                    replaceFragment(MyListFragment(userEmail))
                 }
                 R.id.reviews -> {
                     replaceFragment(ReviewsFragment())

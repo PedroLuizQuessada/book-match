@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.bookmatch.R
+import com.example.bookmatch.adapter.MyListAdapter
+import com.example.bookmatch.data.Users
+import com.example.bookmatch.databinding.FragmentMyListBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,10 +19,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MyListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MyListFragment : Fragment() {
+class MyListFragment(private val userEmail: String) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentMyListBinding
+    private lateinit var myListAdapter: MyListAdapter
+    private var myList = ArrayList<String?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +39,18 @@ class MyListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        binding = FragmentMyListBinding.inflate(inflater, container, false)
+
+        for (i in Users.getUser(userEmail).getMyList()) {
+            myList.add(i)
+        }
+
+        myListAdapter = MyListAdapter(context, myList, userEmail)
+        binding.listview.adapter = myListAdapter
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_list, container, false)
+        return binding.root
     }
 
     companion object {
@@ -49,8 +64,8 @@ class MyListFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MyListFragment().apply {
+        fun newInstance(userEmail: String, param1: String, param2: String) =
+            MyListFragment(userEmail).apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

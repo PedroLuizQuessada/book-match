@@ -31,4 +31,5 @@
 <!--    Success messages-->
     <string name="review_added">The review was added successfully!</string>
     <string name="book_added">The book was added to your list successfully!</string>
+    <string name="book_removed">The book was removed from your list successfully!</string>
 </resources>

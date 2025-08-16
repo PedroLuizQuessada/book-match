@@ -105,8 +105,8 @@ class ExploreFragment(private val userEmail: String) : Fragment() {
                         }
 
                         if (currentX + (cardWidth / 2) > displayMetrics.widthPixels.toFloat() * 0.75 && !isDialogShown) {
-                            loadBookData()
                             Users.getUser(userEmail).getMyList().add(bookName.text.toString())
+                            loadBookData()
                             Toast.makeText(context, R.string.book_added, Toast.LENGTH_SHORT).show()
                         }
                     }
