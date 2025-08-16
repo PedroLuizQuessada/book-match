@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.example.bookmatch.R
 import com.example.bookmatch.data.Books
+import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.Book
 import com.google.android.material.textview.MaterialTextView
 
@@ -30,7 +32,7 @@ private lateinit var bookSynopsis: MaterialTextView
  * Use the [ExploreFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ExploreFragment : Fragment() {
+class ExploreFragment(private val userEmail: String) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -97,6 +99,16 @@ class ExploreFragment : Fragment() {
                             signUpDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                             signUpDialog.show()
                         }
+
+                        if (currentX + (cardWidth / 2) < displayMetrics.widthPixels.toFloat() * 0.25 && !isDialogShown) {
+                            loadBookData()
+                        }
+
+                        if (currentX + (cardWidth / 2) > displayMetrics.widthPixels.toFloat() * 0.75 && !isDialogShown) {
+                            loadBookData()
+                            Users.getUser(userEmail).getMyList().add(bookName.text.toString())
+                            Toast.makeText(context, R.string.book_added, Toast.LENGTH_SHORT).show()
+                        }
                     }
                     animator.start()
                 }
@@ -135,8 +147,8 @@ class ExploreFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ExploreFragment().apply {
+        fun newInstance(userEmail: String, param1: String, param2: String) =
+            ExploreFragment(userEmail).apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

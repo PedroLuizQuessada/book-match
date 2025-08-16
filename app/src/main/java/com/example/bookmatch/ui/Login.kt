@@ -26,7 +26,7 @@ class Login : AppCompatActivity() {
 
         val preferences = getSharedPreferences("remember_me", MODE_PRIVATE)
         if (preferences.contains("e_mail")) {
-            redirect()
+            redirect(preferences.getString("e_mail", "") ?: "")
         }
 
         email = findViewById(R.id.email)
@@ -40,7 +40,7 @@ class Login : AppCompatActivity() {
             try {
                 Users.getUser(email.text.toString(), password.text.toString())
                 configureRememberMe()
-                redirect()
+                redirect(email.text.toString())
             }
             catch (e: Exception) {
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
@@ -60,8 +60,9 @@ class Login : AppCompatActivity() {
         }
     }
 
-    private fun redirect() {
+    private fun redirect(userEmail: String) {
         val intent = Intent(this, Home::class.java)
+        intent.putExtra("userEmail", userEmail)
         startActivity(intent)
     }
 

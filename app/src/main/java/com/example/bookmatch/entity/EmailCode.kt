@@ -12,6 +12,8 @@ class EmailCode(email: String, type: EmailCodeType) {
 
     private var type: EmailCodeType
 
+    var valid: Boolean
+
     fun getCode(): String {
         return code
     }
@@ -24,13 +26,12 @@ class EmailCode(email: String, type: EmailCodeType) {
         return type
     }
 
-    var valid: Boolean = true
-
     init {
         EmailUtil.validateEmail(email)
         code = generateCode()
         this@EmailCode.email = email
         this@EmailCode.type = type
+        valid = true
     }
 
     private fun generateCode(): String {

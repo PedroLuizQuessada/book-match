@@ -48,6 +48,7 @@ class EmailCodeDialog(
                 dismiss()
 
                 val intent = Intent(context, Home::class.java)
+                intent.putExtra("userEmail", user.getEmail())
                 context.startActivity(intent)
                 Toast.makeText(context, emailCodeType.successMessage, Toast.LENGTH_SHORT).show()
             }

@@ -16,6 +16,7 @@ class Home : AppCompatActivity() {
 
     private lateinit var logout: MaterialButton
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var userEmail: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +27,17 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        userEmail = intent.getStringExtra("userEmail") ?: ""
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(ExploreFragment())
+        replaceFragment(ExploreFragment(userEmail))
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.explore -> {
-                    replaceFragment(ExploreFragment())
+                    replaceFragment(ExploreFragment(userEmail))
                 }
                 R.id.my_list -> {
                     replaceFragment(MyListFragment())

@@ -29,5 +29,6 @@
     <string name="book_reviewed_field_hint">Book reviewed</string>
 
 <!--    Success messages-->
-    <string name="review_added">"The review was added successfully!"</string>
+    <string name="review_added">The review was added successfully!</string>
+    <string name="book_added">The book was added to your list successfully!</string>
 </resources>
