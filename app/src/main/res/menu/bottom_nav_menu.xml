@@ -18,7 +18,7 @@
             android:id="@+id/reviews"/>
 
     <item
-            android:title="Logout"
+            android:title="@string/logout_bottom_menu_item_text"
             android:icon="@drawable/outline_directions_run_24"
             android:id="@+id/logout"/>
 

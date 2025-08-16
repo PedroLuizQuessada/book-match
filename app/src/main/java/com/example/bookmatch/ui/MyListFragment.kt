@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
+import android.widget.TextView
 import com.example.bookmatch.adapter.MyListAdapter
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.databinding.FragmentMyListBinding
@@ -26,6 +28,8 @@ class MyListFragment(private val userEmail: String) : Fragment() {
     private lateinit var binding: FragmentMyListBinding
     private lateinit var myListAdapter: MyListAdapter
     private var myList = ArrayList<String?>()
+    private lateinit var emptyText: TextView
+    private lateinit var myListView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,21 +40,26 @@ class MyListFragment(private val userEmail: String) : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentMyListBinding.inflate(inflater, container, false)
-
-        for (i in Users.getUser(userEmail).getMyList()) {
+        val view = binding.root
+        emptyText = binding.signUpChangePasswordText
+        myListView = binding.listview
+        val myListData: MutableList<String> = Users.getUser(userEmail).getMyList()
+        for (i in myListData) {
             myList.add(i)
         }
-
+        if (myListData.isNotEmpty()) {
+            emptyText.visibility = View.GONE
+        } else {
+            emptyText.visibility = View.VISIBLE
+        }
         myListAdapter = MyListAdapter(context, myList, userEmail)
-        binding.listview.adapter = myListAdapter
-
-        // Inflate the layout for this fragment
-        return binding.root
+        myListView.adapter = myListAdapter
+        return view
     }
 
     companion object {

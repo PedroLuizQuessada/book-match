@@ -21,6 +21,7 @@
     <string name="explore_bottom_menu_item_text">Explore</string>
     <string name="my_list_bottom_menu_item_text">My list</string>
     <string name="reviews_bottom_menu_item_text">Reviews</string>
+    <string name="logout_bottom_menu_item_text">Logout</string>
     <string name="add_review_text">Add new review</string>
     <string name="review_field_hint">Write here your impressions about the book…</string>
     <string name="rating_field_hint">Rating</string>
@@ -32,4 +33,5 @@
     <string name="review_added">The review was added successfully!</string>
     <string name="book_added">The book was added to your list successfully!</string>
     <string name="book_removed">The book was removed from your list successfully!</string>
+    <string name="my_list_empty">Your list is empty!</string>
 </resources>
