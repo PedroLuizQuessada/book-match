@@ -117,8 +117,8 @@ class ExploreFragment : Fragment() {
 
         val book: Book = Books.getRandomBook()
 
-        bookName.text = book.name
-        bookSynopsis.text = book.synopsis
+        bookName.text = book.getName()
+        bookSynopsis.text = book.getSynopsis()
         bookLoading.visibility = View.GONE
         bookName.visibility = View.VISIBLE
         bookSynopsis.visibility = View.VISIBLE

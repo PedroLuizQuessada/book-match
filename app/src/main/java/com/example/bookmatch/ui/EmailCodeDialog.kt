@@ -31,14 +31,14 @@ class EmailCodeDialog(
         confirmCode.setOnClickListener {
 
             try {
-                var emailCode: EmailCode = EmailCodes.getEmailCode(emailCodeField.text.toString(), user.email, emailCodeType)
+                var emailCode: EmailCode = EmailCodes.getEmailCode(emailCodeField.text.toString(), user.getEmail(), emailCodeType)
 
                 if (emailCodeType == EmailCodeType.SIGN_UP)
                     Users.userList.add(user)
                 else if (emailCodeType == EmailCodeType.CHANGE_PASSWORD) {
                     try {
-                        val updateUser = Users.getUser(user.email)
-                        updateUser.password = user.password
+                        val updateUser = Users.getUser(user.getEmail())
+                        updateUser.setPassword(user.getPassword())
                     }
                     catch (e: Exception) {
                         Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
@@ -46,8 +46,7 @@ class EmailCodeDialog(
                 }
                 emailCode.valid = false
                 dismiss()
-                println("SENHA USUARIO ATUALIZADA: " + Users.getUser(user.email).password) //TODO
-                println("VALIDADE E-MAIL CODE ATUALIZADA: " + EmailCodes.getEmailCode(this.emailCodeField.text.toString(), user.email, emailCodeType).valid) //TODO
+
                 val intent = Intent(context, Home::class.java)
                 context.startActivity(intent)
                 Toast.makeText(context, emailCodeType.successMessage, Toast.LENGTH_SHORT).show()

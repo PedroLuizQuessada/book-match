@@ -1,40 +1,49 @@
 package com.example.bookmatch.entity
 
 import com.example.bookmatch.enums.EmailCodeType
-import com.example.bookmatch.exception.BadArgumentException
 import com.example.bookmatch.utils.EmailUtil
+import kotlin.random.Random
 
-class EmailCode(code: String, email: String, type: EmailCodeType) {
+class EmailCode(email: String, type: EmailCodeType) {
 
-    private var _code: String
+    private var code: String
 
-    private var _email: String
+    private var email: String
 
-    private var _type: EmailCodeType
+    private var type: EmailCodeType
 
-    val code: String
-        get() = _code
+    fun getCode(): String {
+        return code
+    }
 
-    val email: String
-        get() = _email
+    fun getEmail(): String {
+        return email
+    }
 
-    val type: EmailCodeType
-        get() = _type
+    fun getType(): EmailCodeType {
+        return type
+    }
 
     var valid: Boolean = true
 
     init {
-        validateCode(code)
         EmailUtil.validateEmail(email)
-        _code = code
-        _email = email
-        _type = type
+        code = generateCode()
+        this@EmailCode.email = email
+        this@EmailCode.type = type
     }
 
-    private fun validateCode(code: String) {
-        if (code.length < 6) {
-            throw BadArgumentException("The e-mail code must have at least 6 characters!")
-        }
+    private fun generateCode(): String {
+        val num1 = Random.nextInt(10).toString()
+        val num2 = Random.nextInt(10).toString()
+        val num3 = Random.nextInt(10).toString()
+        val num4 = Random.nextInt(10).toString()
+        val num5 = Random.nextInt(10).toString()
+        val num6 = Random.nextInt(10).toString()
+
+        val code: String = num1 + num2 + num3 + num4 + num5 + num6
+        println("GENERATED CODE: $code")
+        return code
     }
 
 }

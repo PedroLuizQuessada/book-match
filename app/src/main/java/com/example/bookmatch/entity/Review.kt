@@ -4,24 +4,15 @@ import com.example.bookmatch.exception.BadArgumentException
 
 class Review(bookName: String, review: String, rating: Int?) {
 
-    private var _bookName: String
-    private var _review: String
-    private var _rating: Int?
-
-    val bookName: String
-        get() = _bookName
-
-    val review: String
-        get() = _review
-
-    val rating: Int?
-        get() = _rating
+    private var bookName: String
+    private var review: String
+    private var rating: Int?
 
     init {
         validateBookName(bookName)
-        _bookName = bookName
-        _review = review
-        _rating = rating
+        this@Review.bookName = bookName
+        this@Review.review = review
+        this@Review.rating = rating
     }
 
     private fun validateBookName(bookName: String) {

@@ -8,23 +8,19 @@ class Users {
         var userList: MutableList<User> = mutableListOf()
 
         fun getUser(email: String): User {
-            try {
-                val user: User = userList.first { it.email == email }
+            val user: User? = userList.find { it.getEmail() == email }
+            if (user != null)
                 return user
-            }
-            catch (_: NoSuchElementException) {
+            else
                 throw UserNotFoundException()
-            }
         }
 
         fun getUser(email: String, password: String): User {
-            try {
-                val user: User = userList.first { it.email == email && it.password == password }
+            val user: User? = userList.find { it.getEmail() == email && it.getPassword() == password }
+            if (user != null)
                 return user
-            }
-            catch (_: NoSuchElementException) {
+            else
                 throw UserNotFoundException()
-            }
         }
     }
 }

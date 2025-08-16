@@ -7,7 +7,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
+import com.example.bookmatch.data.EmailCodes
 import com.example.bookmatch.data.Users
+import com.example.bookmatch.entity.EmailCode
 import com.example.bookmatch.entity.User
 import com.example.bookmatch.enums.EmailCodeType
 import com.example.bookmatch.exception.PasswordFieldsWithDifferentValuesException
@@ -45,7 +47,8 @@ class ForgotPasswordDialog(context: Context, themeResId: Int) : Dialog(context, 
                 }
 
                 val user = User(emailChangePassword.text.toString(), newPasswordChangePassword.text.toString())
-                Users.getUser(user.email)
+                Users.getUser(user.getEmail())
+                EmailCodes.emailCodeList.add(EmailCode(user.getEmail(), EmailCodeType.CHANGE_PASSWORD))
 
                 dismiss()
 

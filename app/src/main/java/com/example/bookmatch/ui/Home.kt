@@ -1,5 +1,6 @@
 package com.example.bookmatch.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -8,9 +9,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.bookmatch.R
 import com.example.bookmatch.databinding.ActivityHomeBinding
+import com.example.bookmatch.utils.SharedPreferencesUtil
+import com.google.android.material.button.MaterialButton
 
 class Home : AppCompatActivity() {
 
+    private lateinit var logout: MaterialButton
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,13 @@ class Home : AppCompatActivity() {
                 }
             }
             true
+        }
+
+        logout = findViewById(R.id.logout)
+        logout.setOnClickListener {
+            SharedPreferencesUtil.removeKey(this@Home,"remember_me", "e_mail")
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
         }
     }
 

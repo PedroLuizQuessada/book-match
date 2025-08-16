@@ -5,19 +5,21 @@ import com.example.bookmatch.exception.BadArgumentException
 
 class Book(name: String, synopsis: String) {
 
-    private var _name: String
-    private var _synopsis: String
+    private val name: String
+    private val synopsis: String
 
-    val name: String
-        get() = _name
+    fun getName(): String {
+        return name
+    }
 
-    val synopsis: String
-        get() = _synopsis
+    fun getSynopsis(): String {
+        return synopsis
+    }
 
     init {
         validateName(name)
-        _name = name
-        _synopsis = synopsis
+        this@Book.name = name
+        this@Book.synopsis = synopsis
     }
 
     private fun validateName(name: String) {

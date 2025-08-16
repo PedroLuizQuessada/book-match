@@ -7,7 +7,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
+import com.example.bookmatch.data.EmailCodes
 import com.example.bookmatch.data.Users
+import com.example.bookmatch.entity.EmailCode
 import com.example.bookmatch.entity.User
 import com.example.bookmatch.enums.EmailCodeType
 import com.example.bookmatch.exception.EmailAlreadyInUseException
@@ -49,10 +51,12 @@ class SignUpDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
                 val user = User(emailSignUp.text.toString(), passwordSignUp.text.toString())
 
                 try {
-                    Users.getUser(user.email)
+                    Users.getUser(user.getEmail())
                     throw EmailAlreadyInUseException()
                 }
                 catch (_: UserNotFoundException) {}
+
+                EmailCodes.emailCodeList.add(EmailCode(user.getEmail(), EmailCodeType.SIGN_UP))
 
                 dismiss()
 

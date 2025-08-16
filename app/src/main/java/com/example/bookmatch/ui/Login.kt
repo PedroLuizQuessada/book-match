@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
 import com.example.bookmatch.data.Users
-import androidx.core.content.edit
+import com.example.bookmatch.utils.SharedPreferencesUtil
 
 class Login : AppCompatActivity() {
     private lateinit var email: EditText
@@ -66,14 +66,8 @@ class Login : AppCompatActivity() {
     }
 
     private fun configureRememberMe() {
-        val preferences = getSharedPreferences("remember_me", MODE_PRIVATE)
-        preferences.edit {
-            if (rememberMe.isChecked) {
-                putString("e_mail", email.text.toString())
-            } else {
-                remove("e_mail")
-            }
-
+        if (rememberMe.isChecked) {
+            SharedPreferencesUtil.addKey(this@Login, "remember_me", "e_mail", email.text.toString())
         }
     }
 }

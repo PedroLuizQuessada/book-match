@@ -9,13 +9,11 @@ class EmailCodes {
         var emailCodeList: MutableList<EmailCode> = mutableListOf()
 
         fun getEmailCode(code: String, email: String, type: EmailCodeType): EmailCode {
-            try {
-                val emailCode: EmailCode = emailCodeList.first { it.code == code && it.email == email && it.type == type && it.valid }
+            val emailCode: EmailCode? = emailCodeList.find { it.getCode() == code && it.getEmail() == email && it.getType() == type && it.valid }
+            if (emailCode != null)
                 return emailCode
-            }
-            catch (_: NoSuchElementException) {
+            else
                 throw EmailCodeNotFoundException()
-            }
         }
     }
 }
