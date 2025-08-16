@@ -10,11 +10,9 @@ import androidx.fragment.app.Fragment
 import com.example.bookmatch.R
 import com.example.bookmatch.databinding.ActivityHomeBinding
 import com.example.bookmatch.utils.SharedPreferencesUtil
-import com.google.android.material.button.MaterialButton
 
 class Home : AppCompatActivity() {
 
-    private lateinit var logout: MaterialButton
     private lateinit var binding: ActivityHomeBinding
     private lateinit var userEmail: String
 
@@ -45,15 +43,13 @@ class Home : AppCompatActivity() {
                 R.id.reviews -> {
                     replaceFragment(ReviewsFragment())
                 }
+                R.id.logout -> {
+                    SharedPreferencesUtil.removeKey(this@Home,"remember_me", "e_mail")
+                    val intent = Intent(this, Login::class.java)
+                    startActivity(intent)
+                }
             }
             true
-        }
-
-        logout = findViewById(R.id.logout)
-        logout.setOnClickListener {
-            SharedPreferencesUtil.removeKey(this@Home,"remember_me", "e_mail")
-            val intent = Intent(this, Login::class.java)
-            startActivity(intent)
         }
     }
 

@@ -17,22 +17,6 @@
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
             app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/logout"
-                app:layout_constraintTop_toTopOf="@+id/frame_layout"
-                app:layout_constraintStart_toStartOf="@+id/frame_layout"
-                android:layout_marginTop="50dp"
-                android:layout_marginStart="50dp"
-                app:icon="@drawable/outline_directions_run_24"
-                app:iconSize="20dp"
-                app:iconGravity="textStart"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                app:iconPadding="0dp"
-                android:backgroundTint="@color/red"/>
-
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

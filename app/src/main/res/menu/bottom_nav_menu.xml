@@ -17,4 +17,9 @@
             android:icon="@drawable/outline_contract_edit_24"
             android:id="@+id/reviews"/>
 
+    <item
+            android:title="Logout"
+            android:icon="@drawable/outline_directions_run_24"
+            android:id="@+id/logout"/>
+
 </menu>
