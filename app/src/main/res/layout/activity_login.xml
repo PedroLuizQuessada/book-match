@@ -71,7 +71,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/remember_me"
                     android:text="@string/remember_me_checkbox_text"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:checked="true"/>
 
             <Button
                     android:layout_width="match_parent"
