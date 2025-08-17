@@ -25,7 +25,7 @@ class ForgotPasswordDialog(context: Context, themeResId: Int) : Dialog(context, 
     init {
         setContentView(R.layout.dialog_sign_up_change_password)
 
-        changePasswordText = findViewById(R.id.sign_up_change_password_text)
+        changePasswordText = findViewById(R.id.my_list_empty_text)
         changePasswordText.setText(R.string.change_password_text)
 
         emailChangePassword = findViewById(R.id.sign_up_change_password_email)

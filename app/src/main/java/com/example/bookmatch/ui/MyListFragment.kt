@@ -1,12 +1,18 @@
 package com.example.bookmatch.ui
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
+import com.example.bookmatch.R
 import com.example.bookmatch.adapter.MyListAdapter
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.databinding.FragmentMyListBinding
@@ -27,9 +33,15 @@ class MyListFragment(private val userEmail: String) : Fragment() {
     private var param2: String? = null
     private lateinit var binding: FragmentMyListBinding
     private lateinit var myListAdapter: MyListAdapter
-    private var myList = ArrayList<String?>()
     private lateinit var emptyText: TextView
     private lateinit var myListView: ListView
+    private lateinit var sortButton: ImageButton
+    private lateinit var bookNameFilter: EditText
+    private var sort: Boolean = true
+    private var page = 0
+    private val size = 10
+    private var nextPageIsEmpty: Boolean = false
+    private var myListUnfiltered: MutableList<String?> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,20 +58,85 @@ class MyListFragment(private val userEmail: String) : Fragment() {
     ): View? {
         binding = FragmentMyListBinding.inflate(inflater, container, false)
         val view = binding.root
-        emptyText = binding.signUpChangePasswordText
+        emptyText = binding.myListEmptyText
         myListView = binding.listview
-        val myListData: MutableList<String> = Users.getUser(userEmail).getMyList()
-        for (i in myListData) {
-            myList.add(i)
+        sortButton = view.findViewById(R.id.my_list_sort_button)
+        bookNameFilter = view.findViewById(R.id.my_list_book_name_filter)
+        myListAdapter = MyListAdapter(context, ArrayList(), userEmail)
+        myListView.adapter = myListAdapter
+        page = 0
+        sort = true
+
+        myListAdapter.myList!!.clear()
+        myListUnfiltered.clear()
+        bookNameFilter.setText("")
+        loadMyList()
+
+        sortButton.setOnClickListener{
+            page = 0
+            myListAdapter.myList!!.clear()
+            myListUnfiltered.clear()
+            bookNameFilter.setText("")
+            sort = !sort
+            loadMyList()
+            if (sort) {
+                sortButton.setImageResource(R.drawable.outline_arrow_downward_alt_24)
+            }
+            else {
+                sortButton.setImageResource(R.drawable.outline_arrow_upward_alt_24)
+            }
+
         }
-        if (myListData.isNotEmpty()) {
+
+        myListView.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+
+            }
+
+            override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                if (!nextPageIsEmpty && firstVisibleItem + visibleItemCount == totalItemCount && myListAdapter.myList!!.size >= size) {
+                    bookNameFilter.setText("")
+                    page++
+                    loadMyList()
+                }
+            }
+        })
+
+        bookNameFilter.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val filter = s.toString()
+                myListAdapter.myList!!.clear()
+                for (i in myListUnfiltered.filter { it!!.contains(filter, true) }.toCollection(ArrayList())) {
+                    myListAdapter.myList!!.add(i)
+                }
+                myListAdapter.notifyDataSetChanged()
+            }
+        })
+
+        return view
+    }
+
+    private fun loadMyList() {
+        val myListData: MutableList<String> = Users.getUser(userEmail).getMyList(page * size, size, sort)
+        for (i in myListData) {
+            myListAdapter.myList!!.add(i)
+            myListUnfiltered.add(i)
+        }
+        if (myListAdapter.myList!!.isNotEmpty()) {
             emptyText.visibility = View.GONE
         } else {
             emptyText.visibility = View.VISIBLE
         }
-        myListAdapter = MyListAdapter(context, myList, userEmail)
-        myListView.adapter = myListAdapter
-        return view
+        nextPageIsEmpty = myListData.size < size
+        myListAdapter.notifyDataSetChanged()
     }
 
     companion object {

@@ -27,7 +27,7 @@ class SignUpDialog(context: Context, themeResId: Int) : Dialog(context, themeRes
     init {
         setContentView(R.layout.dialog_sign_up_change_password)
 
-        signUpText = findViewById(R.id.sign_up_change_password_text)
+        signUpText = findViewById(R.id.my_list_empty_text)
         signUpText.setText(R.string.sign_up_text)
 
         emailSignUp = findViewById(R.id.sign_up_change_password_email)

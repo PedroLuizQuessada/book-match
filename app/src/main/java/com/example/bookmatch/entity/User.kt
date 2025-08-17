@@ -22,8 +22,24 @@ class User(email: String, password: String) {
         this@User.password = password
     }
 
-    fun getMyList(): MutableList<String> {
-        return myList
+    fun getMyList(begin: Int, size: Int, sort: Boolean): MutableList<String> {
+        val sortedList = if (sort) myList.sorted() else myList.sortedDescending()
+        if (begin >= sortedList.size) {
+            return mutableListOf()
+        }
+        var lastResult = begin + size
+        if (lastResult >= sortedList.size) {
+            lastResult = sortedList.size
+        }
+        return sortedList.subList(begin, lastResult).toMutableList()
+    }
+
+    fun addItemMyList(item: String) {
+        myList.add(item)
+    }
+
+    fun removeItemMyList(item: String) {
+        myList.remove(item)
     }
 
     fun getReviewList(): MutableList<Review> {
