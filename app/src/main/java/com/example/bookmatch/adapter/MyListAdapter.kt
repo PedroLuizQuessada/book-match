@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.example.bookmatch.R
-import com.example.bookmatch.data.Users
+import com.example.bookmatch.ui.DeleteMyListDialog
 import com.google.android.material.button.MaterialButton
 
-class MyListAdapter(context: Context?, var myList: ArrayList<String?>?, private var userEmail: String) :
+class MyListAdapter(context: Context?, var myList: ArrayList<String?>?, private val userEmail: String, private val emptyText: TextView) :
     ArrayAdapter<String?>(context ?: throw NullPointerException("Context cannot be null!"),
         R.layout.my_list_item, myList!!) {
 
@@ -27,9 +26,15 @@ class MyListAdapter(context: Context?, var myList: ArrayList<String?>?, private 
         val myListDeleteButton = view.findViewById<MaterialButton>(R.id.my_list_book_delete)
         myListBook.text = myListItem
         myListDeleteButton.setOnClickListener {
-            Users.getUser(userEmail).removeItemMyList(myListItem.toString())
-            myListCardView.visibility = View.GONE
-            Toast.makeText(context, R.string.book_removed, Toast.LENGTH_SHORT).show()
+            val logoutDialog = DeleteMyListDialog(context,
+                R.style.DialogTheme,
+                myList!!.size == 1,
+                userEmail,
+                myListBook.text.toString(),
+                myListCardView,
+                emptyText)
+            logoutDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            logoutDialog.show()
         }
         return view
     }

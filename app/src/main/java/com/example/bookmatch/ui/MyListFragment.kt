@@ -62,7 +62,7 @@ class MyListFragment(private val userEmail: String) : Fragment() {
         myListView = binding.listview
         sortButton = view.findViewById(R.id.my_list_sort_button)
         bookNameFilter = view.findViewById(R.id.my_list_book_name_filter)
-        myListAdapter = MyListAdapter(context, ArrayList(), userEmail)
+        myListAdapter = MyListAdapter(context, ArrayList(), userEmail, emptyText)
         myListView.adapter = myListAdapter
         page = 0
         sort = true

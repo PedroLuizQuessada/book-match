@@ -31,8 +31,9 @@
     <string name="my_list_book_name">Name of the book</string>
     <string name="my_list_empty">Your list is empty!</string>
     <string name="logout_dialog_text">Do you really want to log out?</string>
-    <string name="dialog_logout_confirm">Yes</string>
-    <string name="dialog_logout_deny">No</string>
+    <string name="dialog_confirm">Yes</string>
+    <string name="dialog_deny">No</string>
+    <string name="delete_my_list_dialog_text">Do you really want to remove this book from your list?</string>
 
 <!--    Success messages-->
     <string name="review_added">The review was added successfully!</string>
