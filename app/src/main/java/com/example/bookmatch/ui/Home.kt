@@ -1,6 +1,5 @@
 package com.example.bookmatch.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +8,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.bookmatch.R
 import com.example.bookmatch.databinding.ActivityHomeBinding
-import com.example.bookmatch.utils.SharedPreferencesUtil
 
 class Home : AppCompatActivity() {
 
@@ -44,9 +42,9 @@ class Home : AppCompatActivity() {
                     replaceFragment(ReviewsFragment())
                 }
                 R.id.logout -> {
-                    SharedPreferencesUtil.removeKey(this@Home,"remember_me", "e_mail")
-                    val intent = Intent(this, Login::class.java)
-                    startActivity(intent)
+                    val logoutDialog = LogoutDialog(this, R.style.DialogTheme)
+                    logoutDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                    logoutDialog.show()
                 }
             }
             true
