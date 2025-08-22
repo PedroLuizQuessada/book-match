@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
 import com.example.bookmatch.data.Users
+import com.example.bookmatch.exception.UserNotFoundException
 import com.example.bookmatch.utils.SharedPreferencesUtil
 
 class Login : AppCompatActivity() {
@@ -26,7 +27,12 @@ class Login : AppCompatActivity() {
 
         val preferences = getSharedPreferences("remember_me", MODE_PRIVATE)
         if (preferences.contains("e_mail")) {
-            redirect(preferences.getString("e_mail", "") ?: "")
+            val userEmail = preferences.getString("e_mail", "") ?: ""
+            try {
+                Users.getUser(userEmail)
+                redirect(userEmail)
+            }
+            catch (_: UserNotFoundException) {}
         }
 
         email = findViewById(R.id.email)
