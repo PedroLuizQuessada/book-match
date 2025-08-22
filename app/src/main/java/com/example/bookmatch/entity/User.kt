@@ -2,8 +2,10 @@ package com.example.bookmatch.entity
 
 import com.example.bookmatch.exception.BadArgumentException
 import com.example.bookmatch.utils.EmailUtil
+import java.util.UUID
 
 class User(email: String, password: String) {
+    private val id: String
     private val email: String
     private var password: String
     private var myList: MutableList<BookItem>
@@ -54,6 +56,7 @@ class User(email: String, password: String) {
     init {
         EmailUtil.validateEmail(email)
         validatePassword(password)
+        this@User.id = UUID.randomUUID().toString()
         this@User.email = email
         this@User.password = password
         myList = mutableListOf()

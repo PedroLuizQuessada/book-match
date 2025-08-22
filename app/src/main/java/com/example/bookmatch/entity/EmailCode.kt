@@ -2,10 +2,12 @@ package com.example.bookmatch.entity
 
 import com.example.bookmatch.enums.EmailCodeType
 import com.example.bookmatch.utils.EmailUtil
+import java.util.UUID
 import kotlin.random.Random
 
 class EmailCode(email: String, type: EmailCodeType) {
 
+    private val id: String
     private var code: String
 
     private var email: String
@@ -28,6 +30,7 @@ class EmailCode(email: String, type: EmailCodeType) {
 
     init {
         EmailUtil.validateEmail(email)
+        this@EmailCode.id = UUID.randomUUID().toString()
         code = generateCode()
         this@EmailCode.email = email
         this@EmailCode.type = type
