@@ -25,11 +25,21 @@
                 android:layout_marginBottom="25dp"
                 android:layout_marginStart="30dp"/>
 
+        <TextView
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:id="@+id/my_list_author_name"
+                android:textColor="@color/purple"
+                android:textSize="16sp"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginStart="30dp"/>
+
         <com.google.android.material.button.MaterialButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/my_list_book_delete"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginBottom="25dp"
                 android:layout_marginEnd="30dp"
                 android:layout_alignParentEnd="true"

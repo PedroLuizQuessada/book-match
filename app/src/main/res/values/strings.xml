@@ -28,6 +28,7 @@
     <string name="save_review_button_text">Save</string>
     <string name="delete_review_button_text">Delete</string>
     <string name="book_reviewed_field_hint">Book reviewed</string>
+    <string name="author_reviewed_field_hint">Author</string>
     <string name="my_list_book_name">Name of the book</string>
     <string name="my_list_empty">Your list is empty!</string>
     <string name="logout_dialog_text">Do you really want to log out?</string>

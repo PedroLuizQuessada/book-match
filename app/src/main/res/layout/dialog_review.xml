@@ -38,6 +38,23 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/review_author"
+            android:autofillHints="no"
+            android:background="@drawable/custom_edittext"
+            android:drawableStart="@drawable/baseline_person_24"
+            android:drawablePadding="8dp"
+            android:hint="@string/author_reviewed_field_hint"
+            android:inputType="text"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/cardview_dark_background"
+            android:layout_marginTop="40dp"
+            android:enabled="false"
+            tools:ignore="TextFields"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/review"
             android:autofillHints="no"
             android:background="@drawable/custom_edittext"

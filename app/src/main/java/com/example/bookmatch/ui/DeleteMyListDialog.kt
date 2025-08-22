@@ -9,12 +9,13 @@ import android.widget.Toast
 import com.example.bookmatch.R
 import com.example.bookmatch.adapter.MyListAdapter
 import com.example.bookmatch.data.Users
+import com.example.bookmatch.entity.BookItem
 
 class DeleteMyListDialog(context: Context,
                          themeResId: Int,
                          singleItem: Boolean,
                          userEmail: String,
-                         myListItem: String,
+                         myListItem: BookItem,
                          myListAdapter: MyListAdapter,
                          emptyText: TextView): Dialog(context, themeResId) {
 

@@ -6,7 +6,7 @@ import com.example.bookmatch.utils.EmailUtil
 class User(email: String, password: String) {
     private val email: String
     private var password: String
-    private var myList: MutableList<String>
+    private var myList: MutableList<BookItem>
     private var reviewList: MutableList<Review>
 
     fun getEmail(): String {
@@ -22,8 +22,13 @@ class User(email: String, password: String) {
         this@User.password = password
     }
 
-    fun getMyList(begin: Int, size: Int, sort: Boolean): MutableList<String> {
-        val sortedList = if (sort) myList.sorted() else myList.sortedDescending()
+    fun getMyList(begin: Int, size: Int, sort: Boolean): MutableList<BookItem> {
+        val sortedList = if (sort) {
+            myList.sortedBy { it.getBookName() }
+        }
+        else {
+            myList.sortedByDescending { it.getBookName() }
+        }
         if (begin >= sortedList.size) {
             return mutableListOf()
         }
@@ -34,11 +39,11 @@ class User(email: String, password: String) {
         return sortedList.subList(begin, lastResult).toMutableList()
     }
 
-    fun addItemMyList(item: String) {
+    fun addItemMyList(item: BookItem) {
         myList.add(item)
     }
 
-    fun removeItemMyList(item: String) {
+    fun removeItemMyList(item: BookItem) {
         myList.remove(item)
     }
 

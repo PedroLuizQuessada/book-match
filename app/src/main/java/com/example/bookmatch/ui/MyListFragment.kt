@@ -16,6 +16,7 @@ import com.example.bookmatch.R
 import com.example.bookmatch.adapter.MyListAdapter
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.databinding.FragmentMyListBinding
+import com.example.bookmatch.entity.BookItem
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +42,7 @@ class MyListFragment(private val userEmail: String) : Fragment() {
     private var page = 0
     private val size = 10
     private var nextPageIsEmpty: Boolean = false
-    private var myListUnfiltered: MutableList<String?> = mutableListOf()
+    private var myListUnfiltered: MutableList<BookItem?> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +115,7 @@ class MyListFragment(private val userEmail: String) : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 val filter = s.toString()
                 myListAdapter.myList!!.clear()
-                for (i in myListUnfiltered.filter { it!!.contains(filter, true) }.toCollection(ArrayList())) {
+                for (i in myListUnfiltered.filter { it?.getBookName()?.contains(filter, true) ?: false }.toCollection(ArrayList())) {
                     myListAdapter.myList!!.add(i)
                 }
                 myListAdapter.notifyDataSetChanged()
@@ -125,7 +126,7 @@ class MyListFragment(private val userEmail: String) : Fragment() {
     }
 
     private fun loadMyList() {
-        val myListData: MutableList<String> = Users.getUser(userEmail).getMyList(page * size, size, sort)
+        val myListData: MutableList<BookItem> = Users.getUser(userEmail).getMyList(page * size, size, sort)
         for (i in myListData) {
             myListAdapter.myList!!.add(i)
             myListUnfiltered.add(i)

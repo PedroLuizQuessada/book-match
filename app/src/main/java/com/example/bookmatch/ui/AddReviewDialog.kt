@@ -10,10 +10,11 @@ import com.example.bookmatch.R
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.Review
 
-class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book: String, exploreFragment: ExploreFragment) : Dialog(context, themeResId) {
+class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book: String, author: String, exploreFragment: ExploreFragment) : Dialog(context, themeResId) {
 
     private var addReviewText: TextView
     private var bookNameField: EditText
+    private var authorNameField: EditText
     private var bookReviewField: EditText
     private var bookRatingField: EditText
     private var addReview: Button
@@ -26,6 +27,9 @@ class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book
 
         bookNameField = findViewById(R.id.review_book)
         bookNameField.setText(book)
+
+        authorNameField = findViewById(R.id.review_author)
+        authorNameField.setText(author)
 
         bookReviewField = findViewById(R.id.review)
 

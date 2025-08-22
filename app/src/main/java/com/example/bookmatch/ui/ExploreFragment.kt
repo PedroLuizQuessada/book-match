@@ -12,9 +12,12 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.example.bookmatch.R
+import com.example.bookmatch.data.BookItems
 import com.example.bookmatch.data.Books
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.entity.Book
+import com.example.bookmatch.entity.BookItem
+import com.example.bookmatch.exception.BookItemNotFoundException
 import com.google.android.material.textview.MaterialTextView
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,6 +28,7 @@ private lateinit var bookCard: CardView
 @SuppressLint("StaticFieldLeak")
 private lateinit var bookLoading: ProgressBar
 private lateinit var bookName: MaterialTextView
+private lateinit var bookAuthor: MaterialTextView
 private lateinit var bookSynopsis: MaterialTextView
 
 /**
@@ -56,6 +60,7 @@ class ExploreFragment(private val userEmail: String) : Fragment() {
         bookCard = view.findViewById(R.id.book_card)
         bookLoading = view.findViewById(R.id.book_loading)
         bookName = view.findViewById(R.id.book_name)
+        bookAuthor = view.findViewById(R.id.book_author)
         bookSynopsis = view.findViewById(R.id.book_synopsis)
         var isDialogShown = false
         var animator: ViewPropertyAnimator? = null
@@ -95,7 +100,7 @@ class ExploreFragment(private val userEmail: String) : Fragment() {
                         if (currentY + (cardHeight / 2) < displayMetrics.heightPixels.toFloat() * 0.25 && !isDialogShown) {
                             isDialogShown = true
                             val signUpDialog = AddReviewDialog(requireContext(), R.style.DialogTheme,
-                                userEmail, bookName.text.toString(), this)
+                                userEmail, bookName.text.toString(), bookAuthor.text.toString(), this)
                             signUpDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                             signUpDialog.show()
                         }
@@ -105,7 +110,16 @@ class ExploreFragment(private val userEmail: String) : Fragment() {
                         }
 
                         if (currentX + (cardWidth / 2) > displayMetrics.widthPixels.toFloat() * 0.75 && !isDialogShown) {
-                            Users.getUser(userEmail).addItemMyList(bookName.text.toString())
+                            var bookItem: BookItem
+                            try {
+                                bookItem = BookItems.getBookItem(bookName.text.toString(), bookAuthor.text.toString())
+                            }
+                            catch (_: BookItemNotFoundException) {
+                                bookItem = BookItem(bookName.text.toString(), bookAuthor.text.toString())
+                                BookItems.bookItemList.add(bookItem)
+                            }
+
+                            Users.getUser(userEmail).addItemMyList(bookItem)
                             loadBookData()
                             Toast.makeText(context, R.string.book_added, Toast.LENGTH_SHORT).show()
                         }
@@ -124,15 +138,18 @@ class ExploreFragment(private val userEmail: String) : Fragment() {
 
     fun loadBookData() {
         bookName.visibility = View.GONE
+        bookAuthor.visibility = View.GONE
         bookSynopsis.visibility = View.GONE
         bookLoading.visibility = View.VISIBLE
 
         val book: Book = Books.getRandomBook()
 
         bookName.text = book.getName()
+        bookAuthor.text = book.getAuthor()
         bookSynopsis.text = book.getSynopsis()
         bookLoading.visibility = View.GONE
         bookName.visibility = View.VISIBLE
+        bookAuthor.visibility = View.VISIBLE
         bookSynopsis.visibility = View.VISIBLE
     }
 
