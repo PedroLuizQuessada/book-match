@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import com.example.bookmatch.R
+import com.example.bookmatch.adapter.MyListAdapter
 import com.example.bookmatch.data.Users
 
 class DeleteMyListDialog(context: Context,
@@ -15,7 +15,7 @@ class DeleteMyListDialog(context: Context,
                          singleItem: Boolean,
                          userEmail: String,
                          myListItem: String,
-                         myListCardView: CardView,
+                         myListAdapter: MyListAdapter,
                          emptyText: TextView): Dialog(context, themeResId) {
 
     private var confirmDeleteMyList: Button
@@ -28,7 +28,8 @@ class DeleteMyListDialog(context: Context,
 
         confirmDeleteMyList.setOnClickListener {
             Users.getUser(userEmail).removeItemMyList(myListItem)
-            myListCardView.visibility = View.GONE
+            myListAdapter.myList!!.remove(myListItem)
+            myListAdapter.notifyDataSetChanged()
             if (singleItem) {
                 emptyText.visibility = View.VISIBLE
             } else {
