@@ -1,5 +1,6 @@
 package com.example.bookmatch.entity
 
+import com.example.bookmatch.enums.ReviewsSort
 import com.example.bookmatch.exception.BadArgumentException
 import com.example.bookmatch.utils.EmailUtil
 import java.util.UUID
@@ -49,13 +50,22 @@ class User(email: String, password: String) {
         myList.remove(item)
     }
 
-    fun getReviewList(begin: Int, size: Int, sort: Boolean): MutableList<Review> {
-        val sortedList = if (sort) {
-            reviewList.sortedBy { it.getBookItem().getBookName() }
+    fun getReviewList(begin: Int, size: Int, sort: ReviewsSort): MutableList<Review> {
+        val sortedList = when (sort) {
+            ReviewsSort.NAME_ASCENDING -> {
+                reviewList.sortedBy { it.getBookItem().getBookName() }
+            }
+            ReviewsSort.NAME_DESCENDING -> {
+                reviewList.sortedByDescending { it.getBookItem().getBookName() }
+            }
+            ReviewsSort.RATING_ASCENDING -> {
+                reviewList.sortedBy { it.getRating() }
+            }
+            else -> {
+                reviewList.sortedByDescending { it.getRating() }
+            }
         }
-        else {
-            reviewList.sortedByDescending { it.getBookItem().getBookName() }
-        }
+
         if (begin >= sortedList.size) {
             return mutableListOf()
         }

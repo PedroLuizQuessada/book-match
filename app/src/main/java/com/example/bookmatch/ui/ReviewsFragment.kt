@@ -17,6 +17,7 @@ import com.example.bookmatch.adapter.ReviewsAdapter
 import com.example.bookmatch.data.Users
 import com.example.bookmatch.databinding.FragmentReviewsBinding
 import com.example.bookmatch.entity.Review
+import com.example.bookmatch.enums.ReviewsSort
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,7 +39,7 @@ class ReviewsFragment(private val userEmail: String) : Fragment() {
     private lateinit var reviewsView: ListView
     private lateinit var sortButton: ImageButton
     private lateinit var bookNameFilter: EditText
-    private var sort: Boolean = true
+    private var sort: ReviewsSort = ReviewsSort.NAME_ASCENDING
     private var page = 0
     private val size = 10
     private var nextPageIsEmpty: Boolean = false
@@ -66,7 +67,7 @@ class ReviewsFragment(private val userEmail: String) : Fragment() {
         reviewsAdapter = ReviewsAdapter(context, ArrayList(), userEmail, emptyText)
         reviewsView.adapter = reviewsAdapter
         page = 0
-        sort = true
+        sort = ReviewsSort.NAME_ASCENDING
 
         reviewsAdapter.reviewsList!!.clear()
         reviewsListUnfiltered.clear()
@@ -78,14 +79,23 @@ class ReviewsFragment(private val userEmail: String) : Fragment() {
             reviewsAdapter.reviewsList!!.clear()
             reviewsListUnfiltered.clear()
             bookNameFilter.setText("")
-            sort = !sort
-            loadReviewList()
-            if (sort) {
-                sortButton.setImageResource(R.drawable.outline_arrow_downward_alt_24)
+            if (sort == ReviewsSort.NAME_ASCENDING) {
+                sortButton.setImageResource(R.drawable.outline_arrow_upward_alt_24)
+                sort = ReviewsSort.NAME_DESCENDING
+            }
+            else if (sort == ReviewsSort.NAME_DESCENDING) {
+                sortButton.setImageResource(R.drawable.outline_keyboard_double_arrow_down_24)
+                sort = ReviewsSort.RATING_ASCENDING
+            }
+            else if (sort == ReviewsSort.RATING_ASCENDING) {
+                sortButton.setImageResource(R.drawable.outline_keyboard_double_arrow_up_24)
+                sort = ReviewsSort.RATING_DESCENDING
             }
             else {
-                sortButton.setImageResource(R.drawable.outline_arrow_upward_alt_24)
+                sortButton.setImageResource(R.drawable.outline_arrow_downward_alt_24)
+                sort = ReviewsSort.NAME_ASCENDING
             }
+            loadReviewList()
 
         }
 

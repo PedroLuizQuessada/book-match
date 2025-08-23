@@ -79,14 +79,13 @@ class MyListFragment(private val userEmail: String) : Fragment() {
             myListUnfiltered.clear()
             bookNameFilter.setText("")
             sort = !sort
-            loadMyList()
             if (sort) {
                 sortButton.setImageResource(R.drawable.outline_arrow_downward_alt_24)
             }
             else {
                 sortButton.setImageResource(R.drawable.outline_arrow_upward_alt_24)
             }
-
+            loadMyList()
         }
 
         myListView.setOnScrollListener(object : AbsListView.OnScrollListener {
