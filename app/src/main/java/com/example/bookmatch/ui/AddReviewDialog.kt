@@ -13,7 +13,8 @@ import com.example.bookmatch.entity.BookItem
 import com.example.bookmatch.entity.Review
 import com.example.bookmatch.exception.BookItemNotFoundException
 
-class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book: String, author: String, exploreFragment: ExploreFragment) : Dialog(context, themeResId) {
+class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book: String, author: String,
+                      exploreFragment: ExploreFragment?) : Dialog(context, themeResId) {
 
     private var addReviewText: TextView
     private var bookNameField: EditText
@@ -54,7 +55,9 @@ class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book
             val rating = bookRatingField.text.toString().takeIf { it.isNotBlank() }?.toInt()
 
             Users.getUser(userEmail).addItemReviewList(Review(bookItem, bookReviewField.text.toString(), rating))
-            exploreFragment.loadBookData()
+
+            exploreFragment?.loadBookData()
+
             dismiss()
             Toast.makeText(context, R.string.review_added, Toast.LENGTH_SHORT).show()
         }

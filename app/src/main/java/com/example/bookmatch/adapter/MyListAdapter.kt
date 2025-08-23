@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.bookmatch.R
 import com.example.bookmatch.entity.BookItem
+import com.example.bookmatch.ui.AddReviewDialog
 import com.example.bookmatch.ui.DeleteMyListDialog
 import com.google.android.material.button.MaterialButton
 
@@ -23,9 +24,20 @@ class MyListAdapter(context: Context?, var myList: ArrayList<BookItem?>?, privat
         }
         val myListBookName = view.findViewById<TextView>(R.id.my_list_book_name)
         val myListAuthorName = view.findViewById<TextView>(R.id.my_list_author_name)
+        val myListAddReviewButton = view.findViewById<MaterialButton>(R.id.my_list_book_review)
         val myListDeleteButton = view.findViewById<MaterialButton>(R.id.my_list_book_delete)
         myListBookName.text = myListItem!!.getBookName()
         myListAuthorName.text = myListItem.getAuthorName()
+        myListAddReviewButton.setOnClickListener {
+            val addReviewDialog = AddReviewDialog(context,
+                R.style.DialogTheme,
+                userEmail,
+                myListItem.getBookName(),
+                myListItem.getAuthorName(),
+                null)
+            addReviewDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            addReviewDialog.show()
+        }
         myListDeleteButton.setOnClickListener {
             val logoutDialog = DeleteMyListDialog(context,
                 R.style.DialogTheme,
