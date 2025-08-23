@@ -1,11 +1,22 @@
 package com.example.bookmatch.ui
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ListView
+import android.widget.TextView
 import com.example.bookmatch.R
+import com.example.bookmatch.adapter.ReviewsAdapter
+import com.example.bookmatch.data.Users
+import com.example.bookmatch.databinding.FragmentReviewsBinding
+import com.example.bookmatch.entity.Review
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,10 +28,21 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ReviewsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ReviewsFragment : Fragment() {
+class ReviewsFragment(private val userEmail: String) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentReviewsBinding
+    private lateinit var reviewsAdapter: ReviewsAdapter
+    private lateinit var emptyText: TextView
+    private lateinit var reviewsView: ListView
+    private lateinit var sortButton: ImageButton
+    private lateinit var bookNameFilter: EditText
+    private var sort: Boolean = true
+    private var page = 0
+    private val size = 10
+    private var nextPageIsEmpty: Boolean = false
+    private var reviewsListUnfiltered: MutableList<Review?> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +53,91 @@ class ReviewsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reviews, container, false)
+        binding = FragmentReviewsBinding.inflate(inflater, container, false)
+        val view = binding.root
+        emptyText = binding.reviewsEmptyText
+        reviewsView = binding.listview
+        sortButton = view.findViewById(R.id.reviews_sort_button)
+        bookNameFilter = view.findViewById(R.id.reviews_book_name_filter)
+        reviewsAdapter = ReviewsAdapter(context, ArrayList(), userEmail, emptyText)
+        reviewsView.adapter = reviewsAdapter
+        page = 0
+        sort = true
+
+        reviewsAdapter.reviewsList!!.clear()
+        reviewsListUnfiltered.clear()
+        bookNameFilter.setText("")
+        loadReviewList()
+
+        sortButton.setOnClickListener{
+            page = 0
+            reviewsAdapter.reviewsList!!.clear()
+            reviewsListUnfiltered.clear()
+            bookNameFilter.setText("")
+            sort = !sort
+            loadReviewList()
+            if (sort) {
+                sortButton.setImageResource(R.drawable.outline_arrow_downward_alt_24)
+            }
+            else {
+                sortButton.setImageResource(R.drawable.outline_arrow_upward_alt_24)
+            }
+
+        }
+
+        reviewsView.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+
+            }
+
+            override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                if (!nextPageIsEmpty && firstVisibleItem + visibleItemCount == totalItemCount && reviewsAdapter.reviewsList!!.size >= size) {
+                    bookNameFilter.setText("")
+                    page++
+                    loadReviewList()
+                }
+            }
+        })
+
+        bookNameFilter.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val filter = s.toString()
+                reviewsAdapter.reviewsList!!.clear()
+                for (i in reviewsListUnfiltered.filter { it?.getBookItem()?.getBookName()?.contains(filter, true) ?: false }.toCollection(ArrayList())) {
+                    reviewsAdapter.reviewsList!!.add(i)
+                }
+                reviewsAdapter.notifyDataSetChanged()
+            }
+        })
+
+        return view
+    }
+
+    private fun loadReviewList() {
+        val reviewListData: MutableList<Review> = Users.getUser(userEmail).getReviewList(page * size, size, sort)
+        for (i in reviewListData) {
+            reviewsAdapter.reviewsList!!.add(i)
+            reviewsListUnfiltered.add(i)
+        }
+        if (reviewsAdapter.reviewsList!!.isNotEmpty()) {
+            emptyText.visibility = View.GONE
+        } else {
+            emptyText.visibility = View.VISIBLE
+        }
+        nextPageIsEmpty = reviewListData.size < size
+        reviewsAdapter.notifyDataSetChanged()
     }
 
     companion object {
@@ -49,8 +151,8 @@ class ReviewsFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ReviewsFragment().apply {
+        fun newInstance(userEmail: String, param1: String, param2: String) =
+            ReviewsFragment(userEmail).apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

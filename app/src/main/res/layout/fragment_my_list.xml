@@ -34,7 +34,7 @@
                 android:background="@drawable/custom_edittext"
                 android:drawableStart="@drawable/outline_book_24"
                 android:drawablePadding="8dp"
-                android:hint="@string/my_list_book_name"
+                android:hint="@string/book_name_filter_field_hint"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textColor="@color/black"

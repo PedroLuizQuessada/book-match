@@ -49,8 +49,29 @@ class User(email: String, password: String) {
         myList.remove(item)
     }
 
-    fun getReviewList(): MutableList<Review> {
-        return reviewList
+    fun getReviewList(begin: Int, size: Int, sort: Boolean): MutableList<Review> {
+        val sortedList = if (sort) {
+            reviewList.sortedBy { it.getBookItem().getBookName() }
+        }
+        else {
+            reviewList.sortedByDescending { it.getBookItem().getBookName() }
+        }
+        if (begin >= sortedList.size) {
+            return mutableListOf()
+        }
+        var lastResult = begin + size
+        if (lastResult >= sortedList.size) {
+            lastResult = sortedList.size
+        }
+        return sortedList.subList(begin, lastResult).toMutableList()
+    }
+
+    fun addItemReviewList(item: Review) {
+        reviewList.add(item)
+    }
+
+    fun removeItemReviewList(item: Review) {
+        reviewList.remove(item)
     }
 
     init {

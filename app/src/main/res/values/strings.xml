@@ -23,21 +23,26 @@
     <string name="reviews_bottom_menu_item_text">Reviews</string>
     <string name="logout_bottom_menu_item_text">Logout</string>
     <string name="add_review_text">Add new review</string>
+    <string name="edit_review_text">Edit review</string>
     <string name="review_field_hint">Write here your impressions about the book…</string>
     <string name="rating_field_hint">Rating</string>
     <string name="save_review_button_text">Save</string>
     <string name="delete_review_button_text">Delete</string>
     <string name="book_reviewed_field_hint">Book reviewed</string>
     <string name="author_reviewed_field_hint">Author</string>
-    <string name="my_list_book_name">Name of the book</string>
+    <string name="book_name_filter_field_hint">Name of the book</string>
     <string name="my_list_empty">Your list is empty!</string>
     <string name="logout_dialog_text">Do you really want to log out?</string>
     <string name="dialog_confirm">Yes</string>
     <string name="dialog_deny">No</string>
     <string name="delete_my_list_dialog_text">Do you really want to remove this book from your list?</string>
+    <string name="reviews_empty">Your reviews is empty!</string>
+    <string name="delete_review_dialog_text">Do you really want to delete this review?</string>
 
 <!--    Success messages-->
     <string name="review_added">The review was added successfully!</string>
     <string name="book_added">The book was added to your list successfully!</string>
     <string name="book_removed">The book was removed from your list successfully!</string>
+    <string name="review_removed">The review was deleted successfully!</string>
+    <string name="review_edited">The review was saved successfully!</string>
 </resources>

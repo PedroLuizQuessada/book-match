@@ -7,8 +7,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bookmatch.R
+import com.example.bookmatch.data.BookItems
 import com.example.bookmatch.data.Users
+import com.example.bookmatch.entity.BookItem
 import com.example.bookmatch.entity.Review
+import com.example.bookmatch.exception.BookItemNotFoundException
 
 class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book: String, author: String, exploreFragment: ExploreFragment) : Dialog(context, themeResId) {
 
@@ -33,18 +36,24 @@ class AddReviewDialog(context: Context, themeResId: Int, userEmail: String, book
 
         bookReviewField = findViewById(R.id.review)
 
-        bookNameField = findViewById(R.id.review_book)
-
         bookRatingField = findViewById(R.id.review_rating)
 
         addReview = findViewById(R.id.save_review)
 
         addReview.setOnClickListener {
 
+            var bookItem: BookItem
+            try {
+                bookItem = BookItems.getBookItem(bookNameField.text.toString(), authorNameField.text.toString())
+            }
+            catch (_: BookItemNotFoundException) {
+                bookItem = BookItem(bookNameField.text.toString(), authorNameField.text.toString())
+                BookItems.bookItemList.add(bookItem)
+            }
+
             val rating = bookRatingField.text.toString().takeIf { it.isNotBlank() }?.toInt()
 
-            Users.getUser(userEmail).getReviewList().add(Review(bookNameField.text.toString(),
-                bookReviewField.text.toString(), rating))
+            Users.getUser(userEmail).addItemReviewList(Review(bookItem, bookReviewField.text.toString(), rating))
             exploreFragment.loadBookData()
             dismiss()
             Toast.makeText(context, R.string.review_added, Toast.LENGTH_SHORT).show()

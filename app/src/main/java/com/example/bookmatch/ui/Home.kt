@@ -39,7 +39,7 @@ class Home : AppCompatActivity() {
                     replaceFragment(MyListFragment(userEmail))
                 }
                 R.id.reviews -> {
-                    replaceFragment(ReviewsFragment())
+                    replaceFragment(ReviewsFragment(userEmail))
                 }
                 R.id.logout -> {
                     val logoutDialog = LogoutDialog(this, R.style.DialogTheme)

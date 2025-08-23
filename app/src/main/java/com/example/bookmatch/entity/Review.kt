@@ -1,26 +1,28 @@
 package com.example.bookmatch.entity
 
-import com.example.bookmatch.exception.BadArgumentException
 import java.util.UUID
 
-class Review(bookName: String, review: String, rating: Int?) {
+class Review(private var bookItem: BookItem, private var review: String?, private var rating: Int?) {
 
-    private val id: String
-    private var bookName: String
-    private var review: String
-    private var rating: Int?
+    private val id: String = UUID.randomUUID().toString()
 
-    init {
-        validateBookName(bookName)
-        this@Review.id = UUID.randomUUID().toString()
-        this@Review.bookName = bookName
-        this@Review.review = review
-        this@Review.rating = rating
+    fun getBookItem(): BookItem {
+        return bookItem
     }
 
-    private fun validateBookName(bookName: String) {
-        if (bookName.isEmpty()) {
-            throw BadArgumentException("The review must have a book name!")
-        }
+    fun getReview(): String? {
+        return review
+    }
+
+    fun setReview(review: String?) {
+        this@Review.review = review
+    }
+
+    fun getRating(): Int? {
+        return rating
+    }
+
+    fun setRating(rating: Int?) {
+        this@Review.rating = rating
     }
 }
